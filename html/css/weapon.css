@@ -1,0 +1,202 @@
+body{
+	background-color: rgba(0, 0, 0, 0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
+	user-drag: none;
+}
+
+.weaponshop {
+	display: none;
+	width:100%;
+	height:100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.container {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	color: white;
+	box-sizing: border-box;
+	background: rgba(0, 0, 0, 1);
+}
+
+.shopName {
+	font-family: 'Orbitron', sans-serif;
+	text-align: left;
+	margin: 0;
+	font-size: 1vw;
+	font-weight:900;
+	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%); 
+}
+
+.money, .cash {
+	font-family: 'Orbitron', sans-serif;
+	text-align: left;
+	margin: 0;
+	font-size: 3vw;
+	font-weight: 900;
+	color: limegreen;
+	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%); 
+}
+
+.shop {
+	width: 98%;
+	height: 100%;
+	overflow: auto;
+	position: absolute;
+	margin-left: 1%;
+	margin-top: 1%;
+	animation: slide-in;
+	animation-duration: 0.3s;
+	animation-fill-mode: forwards;
+	transform: translateX(-3.125vw);
+}
+
+.shop::-webkit-scrollbar {
+  width: 0vw;
+}
+
+.shop::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.shop::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.item {
+	color: Orange;
+	font-size: 0.6vw;
+	display: flex;
+	width: 11vw;
+	margin-left:5%;
+	margin-top: 0.5vh;
+	transition-duration: 0.3s;
+	border-radius: 5px;
+	background: linear-gradient(
+	90deg,
+	rgba(0, 0, 0, 0.5) 0%,
+	rgba(0, 0, 0, 0.3) 100%
+	);
+	position: relative;
+}
+
+.quickslot-item {
+	color: white;
+	font-size: 0.6vw;
+	width: 4.5vw;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.quickslot-label {
+	font-family: 'Orbitron', sans-serif;
+	font-weight: 900;
+}
+
+.img-quickslot {
+	width: 3vw;
+	height: 3vw;
+	object-fit: cover;
+	filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 60%));
+}
+
+.img-quickslotnext {
+	bottom:5%;
+	right:20%;
+	position: absolute;
+	width: 1.7vw;
+	height: 1.7vw;
+	object-fit: cover;
+	filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 60%));
+}
+
+.quickslotnext-ammo {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 0.4vw;
+	bottom:20%;
+	right:0%;
+	position: absolute;
+	width: 1.7vw;
+	height: 1.7vw;
+	object-fit: cover;
+	filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 60%));
+}
+
+.item:hover::after {
+  opacity: 1;
+  transition: all 0.3s;
+}
+
+.item:hover {
+  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(
+    90deg,
+    rgba(100, 100, 100, 0.5) 0%,
+    rgba(100, 100, 100, 0.3) 100%
+  );
+  transition: all 0.4s;
+  transform: scale(1.05);
+  box-shadow: rgba(156, 156, 156, 0.25) 0vw 30vw 60vw -0.469vw inset,
+    rgba(133, 133, 133, 0.3) 0vw 0.703vw 1.406vw -0.703vw inset;
+}
+
+.disable {
+	background: rgba(255, 255, 255, 0.4)
+}
+
+.img-item {
+	width: 5.2vh;
+	height: 5.2vh;
+	object-fit: cover;
+	filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 60%));
+}
+
+.price {
+	font-family: 'Orbitron', sans-serif;
+	color: limegreen;
+	text-align: left;
+}
+
+.itemString {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: left;
+	font-weight: 900;
+	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%); 
+}
+
+.ammoIcon {
+    width: 0.5vw;
+    height: 0.5vw;
+	filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 60%));
+}
+
+@keyframes slide-modal {
+  from {
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

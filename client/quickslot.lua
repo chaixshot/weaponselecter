@@ -1,6 +1,6 @@
 local DelayTime = 0
 
-RegisterCommand('+gameroom_weapon_slot_1', function() -- assault
+RegisterCommand('gameroom_weapon_slot_1', function() -- assault
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		HudWeaponWheelIgnoreSelection()
 		if (GetGameTimer() - DelayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
@@ -26,11 +26,9 @@ RegisterCommand('+gameroom_weapon_slot_1', function() -- assault
 		end
 	end
 end, false)
-RegisterCommand('-gameroom_weapon_slot_1', function()
-end, false)
-RegisterKeyMapping('+gameroom_weapon_slot_1', 'gameroom_weapon_slot_1 ', 'keyboard', "1")
+RegisterKeyMapping('gameroom_weapon_slot_1', 'gameroom_weapon_slot_1 ', 'keyboard', "1")
 
-RegisterCommand('+gameroom_weapon_slot_2', function() -- Pistal
+RegisterCommand('gameroom_weapon_slot_2', function() -- Pistal
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		HudWeaponWheelIgnoreSelection()
 		if (GetGameTimer() - DelayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
@@ -56,11 +54,9 @@ RegisterCommand('+gameroom_weapon_slot_2', function() -- Pistal
 		end
 	end
 end, false)
-RegisterCommand('-gameroom_weapon_slot_2', function()
-end, false)
-RegisterKeyMapping('+gameroom_weapon_slot_2', 'gameroom_weapon_slot_2 ', 'keyboard', "2")
+RegisterKeyMapping('gameroom_weapon_slot_2', 'gameroom_weapon_slot_2 ', 'keyboard', "2")
 
-RegisterCommand('+gameroom_weapon_slot_3', function() -- melee
+RegisterCommand('gameroom_weapon_slot_3', function() -- melee
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		if (GetGameTimer() - DelayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
 			DelayTime = GetGameTimer()
@@ -86,11 +82,9 @@ RegisterCommand('+gameroom_weapon_slot_3', function() -- melee
 		end
 	end
 end, false)
-RegisterCommand('-gameroom_weapon_slot_3', function()
-end, false)
-RegisterKeyMapping('+gameroom_weapon_slot_3', 'gameroom_weapon_slot_3 ', 'keyboard', "3")
+RegisterKeyMapping('gameroom_weapon_slot_3', 'gameroom_weapon_slot_3 ', 'keyboard', "3")
 
-RegisterCommand('+gameroom_weapon_slot_4', function() -- grenade
+RegisterCommand('gameroom_weapon_slot_4', function() -- grenade
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		HudWeaponWheelIgnoreSelection()
 		if (GetGameTimer() - DelayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
@@ -116,9 +110,7 @@ RegisterCommand('+gameroom_weapon_slot_4', function() -- grenade
 		end
 	end
 end, false)
-RegisterCommand('-gameroom_weapon_slot_4', function()
-end, false)
-RegisterKeyMapping('+gameroom_weapon_slot_4', 'gameroom_weapon_slot_4 ', 'keyboard', "4") 
+RegisterKeyMapping('gameroom_weapon_slot_4', 'gameroom_weapon_slot_4 ', 'keyboard', "4") 
 
 AddEventHandler('DarkRP_Bomb:CreateThread', function(gameid)
 	QuickSlotThread()

@@ -3,8 +3,8 @@ RegisterNUICallback('buyItem', function(data, cb)
 	local weaponHash = GetHashKey(data.name)
 	local ammoType = GetPedAmmoTypeFromWeapon_2(playerPed, weaponHash)
 	SendNUIMessage({
-		type="playSound",
-		name="ammopickup1",
+		type = "playSound",
+		name = "ammopickup1",
 	})
 	TriggerEvent("weaponselecter:OnBuy", data)
 	if data.name == "armor" then
@@ -16,11 +16,11 @@ RegisterNUICallback('buyItem', function(data, cb)
 		if data.name == "weapon_smokegrenade" or data.name == "weapon_flashbang" or data.type == "melee" then
 			Ammo = 1
 		end
-		
+
 		if data.type == "pistol" then
-			Ammo = math.floor(Ammo/2)
+			Ammo = math.floor(Ammo / 2)
 		end
-		
+
 		GiveWeaponToPed(playerPed, weaponHash, Ammo, false, true)
 		if string.find(data.name, "mk2") then
 			SetPedWeaponTintIndex(playerPed, weaponHash, tonumber(data.skin))
@@ -33,9 +33,9 @@ RegisterNUICallback('buyItem', function(data, cb)
 		if Config.infinite then
 			SetPedInfiniteAmmo(playerPed, true, weaponHash)
 		end
-		for k,v in pairs(Config.AllComponent) do
+		for k, v in pairs(Config.AllComponent) do
 			if not Config.clip and string.find(v[1], "clip_") then
-			
+
 			else
 				local component = GetWeaponComponent(data.name, v[1])
 				if component then
@@ -66,14 +66,14 @@ end)
 
 RegisterNUICallback('focusOff', function(data, cb)
 	TriggerEvent("weaponselecter:close")
-end)     
+end)
 
 RegisterNUICallback('nomoney', function(data, cb)
 	SendNUIMessage({
 		type = "playSound",
-		name="nothing",
+		name = "nothing",
 	})
-end)     
+end)
 
 function OpenWeaponMenu(data)
 	MenuOpen = true
@@ -83,50 +83,51 @@ function OpenWeaponMenu(data)
 	Config.disablecontrol = (data.disablecontrol == nil and true or data.disablecontrol)
 	SetNuiFocus(true, true)
 	SendNUIMessage({
-        type = "clearmenu",
+		type = "clearmenu",
 		display = true,
-    })
-	SendNUIMessage({
-		type="playSound",
-		name="ammopickup2",
 	})
-	
+	SendNUIMessage({
+		type = "playSound",
+		name = "ammopickup2",
+	})
+
 	Config.removeweapon = {}
 	if data.removeweapon then
-		for k,v in pairs(data.removeweapon) do
+		for k, v in pairs(data.removeweapon) do
 			Config.removeweapon[v] = true
 		end
 	end
-	
-	local _WeaponList ={}
-	for k,v in pairs(Config.WeaponList) do
+
+	local _WeaponList = {}
+	for k, v in pairs(Config.WeaponList) do
 		if not Config.removeweapon[k] then
 			table.insert(_WeaponList, v)
 		end
 	end
-	function compare(a,b)
+	function compare(a, b)
 		return a["itemLabel"] < b["itemLabel"]
 	end
+
 	table.sort(_WeaponList, compare)
-	for k,v in pairs(_WeaponList) do
+	for k, v in pairs(_WeaponList) do
 		SendNUIMessage({
 			type = "createweaponmenu",
 			weapontype = v.type,
-			item =v.item,
+			item = v.item,
 			itemLabel = v.itemLabel,
 			price = v.price,
 		})
 	end
 
 	if data.removetype then
-		for k,v in pairs(data.removetype) do
+		for k, v in pairs(data.removetype) do
 			SendNUIMessage({
 				type = "removetype",
 				weapontype = v,
 			})
 		end
 	end
-	
+
 	if Config.disablecontrol then
 		while MenuOpen do
 			SetPlayerControl(PlayerId(), false, 256)
@@ -146,8 +147,8 @@ AddEventHandler('weaponselecter:close', function()
 			display = false,
 		})
 		SendNUIMessage({
-			type="playSound",
-			name="ammopickup2",
+			type = "playSound",
+			name = "ammopickup2",
 		})
 		MenuOpen = false
 		SetNuiFocus(false, false)
@@ -157,28 +158,28 @@ end)
 
 AddEventHandler('weaponselecter:setmoney', function(money)
 	SendNUIMessage({
-        type = "setcurrentmoney",
+		type = "setcurrentmoney",
 		money = money,
-    })
+	})
 end)
 
 AddEventHandler('weaponselecter:addmoney', function(money)
 	SendNUIMessage({
-        type = "addcurrentmoney",
+		type = "addcurrentmoney",
 		money = money,
-    })
+	})
 end)
 
 AddEventHandler('weaponselecter:removemoney', function(money)
 	SendNUIMessage({
-        type = "addcurrentmoney",
+		type = "addcurrentmoney",
 		money = money,
-    })
+	})
 end)
 
 -- CreateThread(function()
-	-- Wait(100)
-	-- TriggerEvent("weaponselecter:setmoney", 1000)
-	-- TriggerEvent("weaponselecter:open", {ammo=80, infinite=false, removeweapon={""}})
-	-- TriggerEvent("weaponselecter:open", {ammo=200, infinite=true, removetype={"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
+-- Wait(100)
+-- TriggerEvent("weaponselecter:setmoney", 1000)
+-- TriggerEvent("weaponselecter:open", {ammo=80, infinite=false, removeweapon={""}})
+-- TriggerEvent("weaponselecter:open", {ammo=200, infinite=true, removetype={"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
 -- end)

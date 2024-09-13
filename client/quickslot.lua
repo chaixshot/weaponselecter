@@ -1,14 +1,14 @@
-local quickSlot = {
-	deadLock = false,
+local QS = {
+	_visible = false,
 	delayTime = 0,
-	threadLoop = false,
+	threadStart = false,
 }
 
 RegisterCommand('+gameroom_weapon_slot_1', function() -- assault
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		HudWeaponWheelIgnoreSelection()
-		if (GetGameTimer() - quickSlot.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
-			quickSlot.delayTime = GetGameTimer()
+		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
+			QS.delayTime = GetGameTimer()
 			local weapon = GetWeaponInSlot(1)
 			if weapon then
 				SetCurrentPedWeapon(PlayerPedId(), weapon, true)
@@ -37,8 +37,8 @@ RegisterKeyMapping('+gameroom_weapon_slot_1', 'gameroom_weapon_slot_1 ', 'keyboa
 RegisterCommand('+gameroom_weapon_slot_2', function() -- Pistal
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		HudWeaponWheelIgnoreSelection()
-		if (GetGameTimer() - quickSlot.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
-			quickSlot.delayTime = GetGameTimer()
+		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
+			QS.delayTime = GetGameTimer()
 			local weapon = GetWeaponInSlot(2)
 			if weapon then
 				SetCurrentPedWeapon(PlayerPedId(), weapon, true)
@@ -66,8 +66,8 @@ RegisterKeyMapping('+gameroom_weapon_slot_2', 'gameroom_weapon_slot_2 ', 'keyboa
 
 RegisterCommand('+gameroom_weapon_slot_3', function() -- melee
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
-		if (GetGameTimer() - quickSlot.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
-			quickSlot.delayTime = GetGameTimer()
+		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
+			QS.delayTime = GetGameTimer()
 			HudWeaponWheelIgnoreSelection()
 			local weapon = GetWeaponInSlot(3)
 			if weapon then
@@ -97,8 +97,8 @@ RegisterKeyMapping('+gameroom_weapon_slot_3', 'gameroom_weapon_slot_3 ', 'keyboa
 RegisterCommand('+gameroom_weapon_slot_4', function() -- grenade
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		HudWeaponWheelIgnoreSelection()
-		if (GetGameTimer() - quickSlot.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
-			quickSlot.delayTime = GetGameTimer()
+		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
+			QS.delayTime = GetGameTimer()
 			local weapon = GetWeaponInSlot(4)
 			if weapon then
 				SetCurrentPedWeapon(PlayerPedId(), weapon, true)
@@ -125,45 +125,45 @@ end, false)
 RegisterKeyMapping('+gameroom_weapon_slot_4', 'gameroom_weapon_slot_4 ', 'keyboard', "4")
 
 AddEventHandler('DarkRP_Bomb:OnSessionStart', function()
-	QuickSlotThread()
+	QS:Thread()
 end)
 AddEventHandler('DarkRP_Bomb:OnSessionEnd', function()
-	quickSlot.threadLoop = false
+	QS.threadStart = false
+end)
+
+AddEventHandler('DarkRP_Teamdeathmacth:OnSessionStart', function()
+	QS:Thread()
+end)
+AddEventHandler('DarkRP_Teamdeathmacth:OnSessionEnd', function()
+	QS.threadStart = false
+end)
+
+AddEventHandler('DarkRP_Deathmacth:OnSessionStart', function()
+	QS:Thread()
+end)
+AddEventHandler('DarkRP_Deathmacth:OnSessionEnd', function()
+	QS.threadStart = false
 end)
 
 AddEventHandler('DarkRP_Aimlab:CreateThread', function()
-	QuickSlotThread()
+	QS:Thread()
 end)
 AddEventHandler('DarkRP_Aimlab:QuitPaintball', function()
-	quickSlot.threadLoop = false
+	QS.threadStart = false
 end)
 
 AddEventHandler('DarkRP_Boxing:CreateThread', function()
-	QuickSlotThread()
+	QS:Thread()
 end)
 AddEventHandler('DarkRP_Boxing:QuitPaintball', function()
-	quickSlot.threadLoop = false
-end)
-
-AddEventHandler('DarkRP_Deathmacth:CreateThread', function()
-	QuickSlotThread()
-end)
-AddEventHandler('DarkRP_Deathmacth:QuitPaintball', function()
-	quickSlot.threadLoop = false
-end)
-
-AddEventHandler('DarkRP_Teamdeathmacth:CreateThread', function()
-	QuickSlotThread()
-end)
-AddEventHandler('DarkRP_Teamdeathmacth:QuitPaintball', function()
-	quickSlot.threadLoop = false
+	QS.threadStart = false
 end)
 
 AddEventHandler('DarkRP_Zombie_Infection:CreateThread', function()
-	QuickSlotThread()
+	QS:Thread()
 end)
 AddEventHandler('DarkRP_Zombie_Infection:QuitPaintball', function()
-	quickSlot.threadLoop = false
+	QS.threadStart = false
 end)
 
 function GetWeaponInSlot(slot)
@@ -197,16 +197,23 @@ function GetWeaponInSlot(slot)
 	return (weapon ~= 0 and weapon or false), nextweapon, (weaponcount == 1 and 0 or weaponcount)
 end
 
-function QuickSlotThread()
-	quickSlot.deadLock = false
-	quickSlot.threadLoop = true
+function QS:Visible(_visible)
+	if _visible == nil then
+		return self._visible
+	elseif _visible ~= self._visible then
+		self._visible = _visible
+		SendNUIMessage({
+			type = "showquickslot",
+			quickslot = _visible,
+		})
+	end
+end
 
-	SendNUIMessage({
-		type = "showquickslot",
-		quickslot = true,
-	})
+function QS:Thread()
+	self.threadStart = true
+	self:Visible(true)
 
-	while quickSlot.threadLoop do
+	while self.threadStart do
 		local playerPed                    = PlayerPedId()
 		local slot1, slotnext1, slotcount1 = GetWeaponInSlot(1)
 		local slot2, slotnext2, slotcount2 = GetWeaponInSlot(2)
@@ -258,36 +265,20 @@ function QuickSlotThread()
 		DisableControlAction(1, 160, false)
 		DisableControlAction(1, 164, false)
 
-		if IsPlayerDead(PlayerId()) then
-			if not quickSlot.deadLock then
-				quickSlot.deadLock = true
-				SendNUIMessage({
-					type = "showquickslot",
-					quickslot = false,
-				})
-			end
-		elseif quickSlot.deadLock then
-			quickSlot.deadLockck = false
-			SendNUIMessage({
-				type = "showquickslot",
-				quickslot = true,
-			})
+		if IsPlayerDead(PlayerId()) or IsPlayerSwitchInProgress() or IsScreenFadingOut() then
+			self:Visible(false)
+		else
+			self:Visible(true)
 		end
 
 		Citizen.Wait(0)
 	end
-	SendNUIMessage({
-		type = "showquickslot",
-		quickslot = false,
-	})
+
+	self:Visible(false)
 end
 
 AddEventHandler('weaponselecter:hideQuickSlot', function()
-	quickSlot.deadLock = true
-	SendNUIMessage({
-		type = "showquickslot",
-		quickslot = false,
-	})
+	QS:Visible(false)
 end)
 
 -- CreateThread(function()

@@ -1,7 +1,7 @@
 local function GetIntFromBlob(b, s, o)
 	local r = 0
 	for i = 1, s, 1 do
-		r = r | (string.byte(b, o + i) << (i - 1) * 8)
+		r |= (string.byte(b, o + i) << (i - 1) * 8)
 	end
 	return r
 end
@@ -41,6 +41,7 @@ GetWeaponHudStats = function(weaponHash)
 
 	local hudDamage2
 	local hudAccuracy2
+	
 	if HasPedGotWeaponComponent(playerPed, weaponHash, GetHashKey("COMPONENT_AT_MUZZLE_01")) then
 		hudAccuracy2 = GetHashKey("COMPONENT_AT_MUZZLE_01")
 	elseif HasPedGotWeaponComponent(playerPed, weaponHash, GetHashKey("COMPONENT_AT_MUZZLE_02")) then
@@ -74,6 +75,7 @@ GetWeaponHudStats = function(weaponHash)
 	elseif HasPedGotWeaponComponent(playerPed, weaponHash, GetHashKey("COMPONENT_CERAMICPISTOL_SUPP")) then
 		hudAccuracy2 = GetHashKey("COMPONENT_AT_MUZZLE_01")
 	end
+
 	if HasPedGotWeaponComponent(playerPed, weaponHash, GetHashKey("COMPONENT_ASSAULTRIFLE_MK2_CLIP_ARMORPIERCING")) then
 		hudDamage2 = GetHashKey("COMPONENT_ASSAULTRIFLE_MK2_CLIP_ARMORPIERCING")
 	elseif HasPedGotWeaponComponent(playerPed, weaponHash, GetHashKey("COMPONENT_ASSAULTRIFLE_MK2_CLIP_FMJ")) then
@@ -165,13 +167,15 @@ GetWeaponHudStats = function(weaponHash)
 	elseif HasPedGotWeaponComponent(playerPed, weaponHash, GetHashKey("COMPONENT_SPECIALCARBINE_MK2_CLIP_TRACER")) then
 		hudDamage2 = GetHashKey("COMPONENT_SPECIALCARBINE_MK2_CLIP_TRACER")
 	end
+
 	if hudDamage2 then
-		local _, hudDamage2, _, _, _ = GetWeaponComponentHudStats(hudDamage2)
-		hudDamage = hudDamage + hudDamage2
+		_, hudDamage2, _, _, _ = GetWeaponComponentHudStats(hudDamage2)
+		hudDamage += hudDamage2
 	end
+
 	if hudAccuracy2 then
-		local _, _, _, _, hudAccuracy2 = GetWeaponComponentHudStats(hudAccuracy2)
-		hudAccuracy = hudAccuracy + hudAccuracy2
+		_, _, _, _, hudAccuracy2 = GetWeaponComponentHudStats(hudAccuracy2)
+		hudAccuracy += hudAccuracy2
 	end
 
 	return retval, hudDamage, hudSpeed, hudCapacity, hudAccuracy, hudRange

@@ -76,11 +76,16 @@ RegisterNUICallback('nomoney', function(data, cb)
 end)
 
 function OpenWeaponMenu(data)
+	local _WeaponList = {}
+
 	MenuOpen = true
+
 	Config.infinite = data.infinite
 	Config.ammo = data.ammo
 	Config.clip = (data.clip == nil and false or data.clip)
 	Config.disablecontrol = (data.disablecontrol == nil and true or data.disablecontrol)
+	Config.removeweapon = {}
+
 	SetNuiFocus(true, true)
 	SendNUIMessage({
 		type = "clearmenu",
@@ -91,24 +96,22 @@ function OpenWeaponMenu(data)
 		name = "ammopickup2",
 	})
 
-	Config.removeweapon = {}
 	if data.removeweapon then
 		for k, v in pairs(data.removeweapon) do
 			Config.removeweapon[v] = true
 		end
 	end
 
-	local _WeaponList = {}
 	for k, v in pairs(Config.WeaponList) do
 		if not Config.removeweapon[k] then
 			table.insert(_WeaponList, v)
 		end
 	end
-	function compare(a, b)
-		return a["itemLabel"] < b["itemLabel"]
-	end
 
-	table.sort(_WeaponList, compare)
+	table.sort(_WeaponList, function(a, b)
+		return a["itemLabel"] < b["itemLabel"]
+	end)
+
 	for k, v in pairs(_WeaponList) do
 		SendNUIMessage({
 			type = "createweaponmenu",
@@ -131,7 +134,7 @@ function OpenWeaponMenu(data)
 	if Config.disablecontrol then
 		while MenuOpen do
 			SetPlayerControl(PlayerId(), false, 256)
-			Wait(10)
+			Citizen.Wait(0)
 		end
 	end
 end
@@ -152,7 +155,7 @@ AddEventHandler('weaponselecter:close', function()
 		})
 		MenuOpen = false
 		SetNuiFocus(false, false)
-		SetPlayerControl(PlayerId(), true)
+		SetPlayerControl(PlayerId(), true, 0)
 	end
 end)
 
@@ -177,9 +180,9 @@ AddEventHandler('weaponselecter:removemoney', function(money)
 	})
 end)
 
--- CreateThread(function()
--- Wait(100)
--- TriggerEvent("weaponselecter:setmoney", 1000)
--- TriggerEvent("weaponselecter:open", {ammo=80, infinite=false, removeweapon={""}})
--- TriggerEvent("weaponselecter:open", {ammo=200, infinite=true, removetype={"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
+-- Citizen.CreateThread(function()
+-- 	Citizen.Wait(100)
+-- 	TriggerEvent("weaponselecter:setmoney", 1000)
+-- 	TriggerEvent("weaponselecter:open", {ammo=80, infinite=false, removeweapon={""}})
+-- 	TriggerEvent("weaponselecter:open", {ammo=200, infinite=true, removetype={"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
 -- end)

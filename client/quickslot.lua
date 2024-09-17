@@ -2,23 +2,29 @@ local QS = {
 	_visible = false,
 	delayTime = 0,
 	threadStart = false,
+	slotSounds ={
+		[1] = "awp_deploy",
+		[2] = "m4a1_deploy",
+		[3] = "knife_deploy",
+		[4] = "de_deploy",
+	}
 }
 
-RegisterCommand('+gameroom_weapon_slot_1', function() -- assault
+function QS:SwitchWeapon(slot)
 	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
 		HudWeaponWheelIgnoreSelection()
 		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
 			QS.delayTime = GetGameTimer()
-			local weapon = GetWeaponInSlot(1)
+			local weapon = GetWeaponInSlot(slot)
 			if weapon then
 				SetCurrentPedWeapon(PlayerPedId(), weapon, true)
 				SendNUIMessage({
 					type = "usequickslot",
-					slot = "1",
+					slot = tostring(slot),
 				})
 				SendNUIMessage({
 					type = "playSound",
-					name = "awp_deploy",
+					name = QS.slotSounds[slot],
 				})
 			else
 				SetCurrentPedWeapon(PlayerPedId(), GetHashKey("weapon_unarmed"), false)
@@ -29,142 +35,35 @@ RegisterCommand('+gameroom_weapon_slot_1', function() -- assault
 			end
 		end
 	end
+end
+
+RegisterCommand('+gameroom_weapon_slot_1', function() -- assault
+	QS:SwitchWeapon(1)
 end, false)
 RegisterCommand('-gameroom_weapon_slot_1', function()
 end, false)
 RegisterKeyMapping('+gameroom_weapon_slot_1', 'gameroom_weapon_slot_1 ', 'keyboard', "1")
 
 RegisterCommand('+gameroom_weapon_slot_2', function() -- Pistal
-	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
-		HudWeaponWheelIgnoreSelection()
-		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
-			QS.delayTime = GetGameTimer()
-			local weapon = GetWeaponInSlot(2)
-			if weapon then
-				SetCurrentPedWeapon(PlayerPedId(), weapon, true)
-				SendNUIMessage({
-					type = "usequickslot",
-					slot = "2",
-				})
-				SendNUIMessage({
-					type = "playSound",
-					name = "m4a1_deploy",
-				})
-			else
-				SetCurrentPedWeapon(PlayerPedId(), GetHashKey("weapon_unarmed"), false)
-				SendNUIMessage({
-					type = "usequickslot",
-					slot = "0",
-				})
-			end
-		end
-	end
+	QS:SwitchWeapon(2)
 end, false)
 RegisterCommand('-gameroom_weapon_slot_2', function()
 end, false)
 RegisterKeyMapping('+gameroom_weapon_slot_2', 'gameroom_weapon_slot_2 ', 'keyboard', "2")
 
 RegisterCommand('+gameroom_weapon_slot_3', function() -- melee
-	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
-		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
-			QS.delayTime = GetGameTimer()
-			HudWeaponWheelIgnoreSelection()
-			local weapon = GetWeaponInSlot(3)
-			if weapon then
-				SetCurrentPedWeapon(PlayerPedId(), weapon, true)
-				SendNUIMessage({
-					type = "usequickslot",
-					slot = "3",
-				})
-				SendNUIMessage({
-					type = "playSound",
-					name = "knife_deploy",
-				})
-			else
-				SetCurrentPedWeapon(PlayerPedId(), GetHashKey("weapon_unarmed"), false)
-				SendNUIMessage({
-					type = "usequickslot",
-					slot = "0",
-				})
-			end
-		end
-	end
+	QS:SwitchWeapon(3)
 end, false)
 RegisterCommand('-gameroom_weapon_slot_3', function()
 end, false)
 RegisterKeyMapping('+gameroom_weapon_slot_3', 'gameroom_weapon_slot_3 ', 'keyboard', "3")
 
 RegisterCommand('+gameroom_weapon_slot_4', function() -- grenade
-	if DecorGetInt(PlayerPedId(), "GameRoom") ~= 0 then
-		HudWeaponWheelIgnoreSelection()
-		if (GetGameTimer() - QS.delayTime) > 600 and not IsPlayerDead(PlayerId()) and not IsPedShooting(PlayerPedId()) and not IsPedJumping(PlayerPedId()) then
-			QS.delayTime = GetGameTimer()
-			local weapon = GetWeaponInSlot(4)
-			if weapon then
-				SetCurrentPedWeapon(PlayerPedId(), weapon, true)
-				SendNUIMessage({
-					type = "usequickslot",
-					slot = "4",
-				})
-				SendNUIMessage({
-					type = "playSound",
-					name = "de_deploy",
-				})
-			else
-				SetCurrentPedWeapon(PlayerPedId(), GetHashKey("weapon_unarmed"), false)
-				SendNUIMessage({
-					type = "usequickslot",
-					slot = "0",
-				})
-			end
-		end
-	end
+	QS:SwitchWeapon(4)
 end, false)
 RegisterCommand('-gameroom_weapon_slot_4', function()
 end, false)
 RegisterKeyMapping('+gameroom_weapon_slot_4', 'gameroom_weapon_slot_4 ', 'keyboard', "4")
-
-AddEventHandler('DarkRP_Bomb:OnSessionStart', function()
-	QS:Thread()
-end)
-AddEventHandler('DarkRP_Bomb:OnSessionEnd', function()
-	QS.threadStart = false
-end)
-
-AddEventHandler('DarkRP_Teamdeathmacth:OnSessionStart', function()
-	QS:Thread()
-end)
-AddEventHandler('DarkRP_Teamdeathmacth:OnSessionEnd', function()
-	QS.threadStart = false
-end)
-
-AddEventHandler('DarkRP_Deathmacth:OnSessionStart', function()
-	QS:Thread()
-end)
-AddEventHandler('DarkRP_Deathmacth:OnSessionEnd', function()
-	QS.threadStart = false
-end)
-
-AddEventHandler('DarkRP_Aimlab:CreateThread', function()
-	QS:Thread()
-end)
-AddEventHandler('DarkRP_Aimlab:QuitPaintball', function()
-	QS.threadStart = false
-end)
-
-AddEventHandler('DarkRP_Boxing:CreateThread', function()
-	QS:Thread()
-end)
-AddEventHandler('DarkRP_Boxing:QuitPaintball', function()
-	QS.threadStart = false
-end)
-
-AddEventHandler('DarkRP_Zombie_Infection:CreateThread', function()
-	QS:Thread()
-end)
-AddEventHandler('DarkRP_Zombie_Infection:QuitPaintball', function()
-	QS.threadStart = false
-end)
 
 function GetWeaponInSlot(slot)
 	local playerPed = PlayerPedId()
@@ -209,7 +108,7 @@ function QS:Visible(_visible)
 	end
 end
 
-function QS:Thread()
+function QS:ThreadStart()
 	self.threadStart = true
 	self:Visible(true)
 
@@ -265,7 +164,7 @@ function QS:Thread()
 		DisableControlAction(1, 160, false)
 		DisableControlAction(1, 164, false)
 
-		if IsPlayerDead(PlayerId()) or IsPlayerSwitchInProgress() or IsScreenFadingOut() then
+		if IsPlayerDead(PlayerId()) or IsPlayerSwitchInProgress() or IsScreenFadingOut() or NetworkIsInSpectatorMode() then
 			self:Visible(false)
 		else
 			self:Visible(true)
@@ -273,12 +172,22 @@ function QS:Thread()
 
 		Citizen.Wait(0)
 	end
+end
 
+function QS:ThreadStop()
+	self.threadStart = false
 	self:Visible(false)
 end
 
-AddEventHandler('weaponselecter:hideQuickSlot', function()
+AddEventHandler('weaponselecter:QuickSlotHide', function()
 	QS:Visible(false)
+end)
+
+AddEventHandler('weaponselecter:QuickSlotThreadStart', function()
+	QS:ThreadStart()
+end)
+AddEventHandler('weaponselecter:QuickSlotThreadStop', function()
+	QS:ThreadStop()
 end)
 
 -- CreateThread(function()

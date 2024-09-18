@@ -3,7 +3,7 @@ lua54 'yes'
 game 'gta5'
 -- use_fxv2_oal 'yes'
 
-version '2.1.1'
+version '2.1.2'
 
 client_scripts {
 	'config.lua',

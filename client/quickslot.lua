@@ -190,8 +190,9 @@ AddEventHandler('weaponselecter:QuickSlotThreadStop', function()
 	QS:ThreadStop()
 end)
 
--- CreateThread(function()
--- Wait(100)
--- DecorSetInt(PlayerPedId(), "GameRoom", 10)
--- QuickSlotThread()
+--** Tester
+-- Citizen.CreateThread(function()
+-- 	Citizen.Wait(100)
+-- 	DecorSetInt(PlayerPedId(), "GameRoom", 10)
+-- 	QS:ThreadStart()
 -- end)

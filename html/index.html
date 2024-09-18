@@ -1,186 +1,213 @@
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" type="text/javascript"></script>
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/css/mdb.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="./css/weapon.css">
-		<script src="./js/weapon.js"></script>
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.csss">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Kodchasan&display=swap');
-			@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-			*,body{
-				font-family: 'Kodchasan', sans-serif;
-				overflow: hidden;
-			}
-			<style>
-		</style>
-	</head>
-	<body id="body">
-		<div class="weaponshop">
-			<div class="container">
-				<div class="shop">	
-					<div class="row">
-						<div class="col">
-							<p class="money">$<a class="cash">1,000</a></p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col mb-5">	
-							<div class="col type_tool">	
-								<p class="shopName">Tool</p>
-								<div class="tool"></div>
-							</div>
-							<div class="col mt-5 type_grenade">	
-								<p class="shopName">Grenade</p>
-								<div class="grenade"></div>
-							</div>
-							<div class="col-6 mt-5">	
-								<p class="shopName text-warning">Skin</p>
-								<select id="weapon_skin" class="browser-default custom-select">
-									<option value="1">Green</option>
-									<option value="2">Gold</option>
-									<option value="3">Pink</option>
-									<option value="4">Army</option>
-									<option value="5">LSPD</option>
-									<option value="6">Orange</option>
-									<option value="7">Platinum</option>
-									
-									<option value="1" style="background: MediumPurple; color: White;">Classic Gray</option>
-									<option value="2" style="background: MediumPurple; color: White;">Classic Two Tone</option>
-									<option value="3" style="background: MediumPurple; color: White;">Classic White</option>
-									<option value="4" style="background: MediumPurple; color: White;">Classic Beige</option>
-									<option value="5" style="background: MediumPurple; color: White;">Classic Green</option>
-									<option value="6" style="background: MediumPurple; color: White;">Classic Blue</option>
-									<option value="7" style="background: MediumPurple; color: White;">Classic Earth</option>
-									<option value="8" style="background: MediumPurple; color: White;">Classic Brownandblack</option>
-									<option value="9" style="background: MediumPurple; color: Gold ;">Contrast Red</option>
-									<option value="10" style="background: MediumPurple; color: Gold ;">Contrast Blue</option>
-									<option value="11" style="background: MediumPurple; color: Gold ;">Contrast Yellow</option>
-									<option value="12" style="background: MediumPurple; color: Gold ;">Contrast Orange</option>
-									<option value="13" style="background: MediumPurple; color: White;">Bold Pink</option>
-									<option value="14" style="background: MediumPurple; color: White;">Bold Purpleandyellow</option>
-									<option value="15" style="background: MediumPurple; color: White;">Bold Orange</option>
-									<option value="16" style="background: MediumPurple; color: White;">Bold Greenandpurple</option>
-									<option value="17" style="background: MediumPurple; color: White;">Bold Red</option>
-									<option value="18" style="background: MediumPurple; color: White;">Bold Green</option>
-									<option value="19" style="background: MediumPurple; color: White;">Bold Cyan</option>
-									<option value="20" style="background: MediumPurple; color: White;">Bold Yellow</option>
-									<option value="21" style="background: MediumPurple; color: White;">Bold Red And White</option>
-									<option value="22" style="background: MediumPurple; color: White;">Bold Blue And White</option>
-									<option value="23" style="background: MediumPurple; color: Gold;">Metallic Gold</option>
-									<option value="24" style="background: MediumPurple; color: Gold;">Metallic Platinum</option>
-									<option value="25" style="background: MediumPurple; color: Gold;">Metallic Gray And Lilac</option>
-									<option value="26" style="background: MediumPurple; color: Gold;">Metallic Purple And Lime</option>
-									<option value="27" style="background: MediumPurple; color: Gold;">Metallic Red</option>
-									<option value="28" style="background: MediumPurple; color: Gold;">Metallic Green</option>
-									<option value="29" style="background: MediumPurple; color: Gold;">Metallic Blue</option>
-									<option value="30" style="background: MediumPurple; color: Gold;">Metallic White And Aqua</option>
-									<option value="31" style="background: MediumPurple; color: Gold;">Metallic Red And Yellow</option>
-								</select>
-							</div>
-						</div>
-						<div class="col type_melee">	
-							<p class="shopName">Melee</p>
-							<div class="melee"></div>
-						</div>
-						<div class="col type_pistol">
-							<p class="shopName">Pistol</p>
-							<div class="pistol"></div>
-						</div>
-						<div class="col type_submachine">
-							<p class="shopName">Submachine</p>
-							<div class="submachine"></div>
-						</div>
-						<div class="col type_assault">
-							<p class="shopName">Assault</p>
-							<div class="assault"></div>
-						</div>
-						<div class="col type_shotgun">
-							<p class="shopName">Shotgun</p>
-							<div class="shotgun"></div>
-						</div>
-						<div class="col type_sniper mb-5">
-							<p class="shopName">Sniper</p>
-							<div class="sniper"></div>
-						</div>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" type="text/javascript"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/css/mdb.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./css/weapon.css">
+	<script src="./js/weapon.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.csss">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+		* {
+			font-family: "Open Sans", sans-serif;
+			font-optical-sizing: auto;
+			font-weight: 400;
+			font-style: normal;
+			font-variation-settings: "wdth" 100;
+		}
+
+		/* width */
+		::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+			background: #f1f1f1;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #888;
+			background: transparent;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #555;
+			background: transparent;
+		}
+	</style>
+</head>
+
+<body id="body" class="overflow-hidden">
+	<div class="weaponshop">
+		<div class="container">
+			<div class="shop">
+				<div class="row">
+					<div class="col">
+						<p class="money">$<a class="cash">1,000</a></p>
 					</div>
 				</div>
-				<div class="Status" style="position: absolute; display: inline-block; pointer-events: none; display: none; width: 11vw;">
-					<div class="progress md-progress mb-1 status_damage_block" style="height: 20px">
-						<div class="progress-bar text-white bg-danger status_damage" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Damage</div>
+				<div class="row">
+					<div class="col mb-5">
+						<div class="col type_tool">
+							<p class="shopName">Tool</p>
+							<div class="tool weaponList"></div>
+						</div>
+						<div class="col mt-5 type_grenade">
+							<p class="shopName">Grenade</p>
+							<div class="grenade weaponList"></div>
+						</div>
+						<div class="col-6 mt-5">
+							<p class="shopName text-warning">Skin</p>
+							<select id="weapon_skin" class="browser-default custom-select">
+								<option value="1">Green</option>
+								<option value="2">Gold</option>
+								<option value="3">Pink</option>
+								<option value="4">Army</option>
+								<option value="5">LSPD</option>
+								<option value="6">Orange</option>
+								<option value="7">Platinum</option>
+
+								<option value="1" style="background: MediumPurple; color: White;">Classic Gray</option>
+								<option value="2" style="background: MediumPurple; color: White;">Classic Two Tone</option>
+								<option value="3" style="background: MediumPurple; color: White;">Classic White</option>
+								<option value="4" style="background: MediumPurple; color: White;">Classic Beige</option>
+								<option value="5" style="background: MediumPurple; color: White;">Classic Green</option>
+								<option value="6" style="background: MediumPurple; color: White;">Classic Blue</option>
+								<option value="7" style="background: MediumPurple; color: White;">Classic Earth</option>
+								<option value="8" style="background: MediumPurple; color: White;">Classic Brownandblack</option>
+								<option value="9" style="background: MediumPurple; color: Gold ;">Contrast Red</option>
+								<option value="10" style="background: MediumPurple; color: Gold ;">Contrast Blue</option>
+								<option value="11" style="background: MediumPurple; color: Gold ;">Contrast Yellow</option>
+								<option value="12" style="background: MediumPurple; color: Gold ;">Contrast Orange</option>
+								<option value="13" style="background: MediumPurple; color: White;">Bold Pink</option>
+								<option value="14" style="background: MediumPurple; color: White;">Bold Purpleandyellow</option>
+								<option value="15" style="background: MediumPurple; color: White;">Bold Orange</option>
+								<option value="16" style="background: MediumPurple; color: White;">Bold Greenandpurple</option>
+								<option value="17" style="background: MediumPurple; color: White;">Bold Red</option>
+								<option value="18" style="background: MediumPurple; color: White;">Bold Green</option>
+								<option value="19" style="background: MediumPurple; color: White;">Bold Cyan</option>
+								<option value="20" style="background: MediumPurple; color: White;">Bold Yellow</option>
+								<option value="21" style="background: MediumPurple; color: White;">Bold Red And White</option>
+								<option value="22" style="background: MediumPurple; color: White;">Bold Blue And White</option>
+								<option value="23" style="background: MediumPurple; color: Gold;">Metallic Gold</option>
+								<option value="24" style="background: MediumPurple; color: Gold;">Metallic Platinum</option>
+								<option value="25" style="background: MediumPurple; color: Gold;">Metallic Gray And Lilac</option>
+								<option value="26" style="background: MediumPurple; color: Gold;">Metallic Purple And Lime</option>
+								<option value="27" style="background: MediumPurple; color: Gold;">Metallic Red</option>
+								<option value="28" style="background: MediumPurple; color: Gold;">Metallic Green</option>
+								<option value="29" style="background: MediumPurple; color: Gold;">Metallic Blue</option>
+								<option value="30" style="background: MediumPurple; color: Gold;">Metallic White And Aqua</option>
+								<option value="31" style="background: MediumPurple; color: Gold;">Metallic Red And Yellow</option>
+							</select>
+						</div>
 					</div>
-					<div class="progress md-progress mb-1 status_firerate_block" style="height: 20px">
-						<div class="progress-bar text-white bg-success status_firerate" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Fire Rate</div>
+					<div class="col type_melee">
+						<p class="shopName">Melee</p>
+						<div class="melee weaponList"></div>
 					</div>
-					<div class="progress md-progress mb-1 status_accuracy_block" style="height: 20px">
-						<div class="progress-bar text-white bg-primaly status_accuracy" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Accuracy</div>
+					<div class="col type_pistol">
+						<p class="shopName">Pistol</p>
+						<div class="pistol weaponList"></div>
 					</div>
-					<div class="progress md-progress mb-1 status_range_block" style="height: 20px">
-						<div class="progress-bar text-white bg-warning status_range" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Range</div>
+					<div class="col type_submachine">
+						<p class="shopName">Submachine</p>
+						<div class="submachine weaponList"></div>
+					</div>
+					<div class="col type_assault">
+						<p class="shopName">Assault</p>
+						<div class="assault weaponList"></div>
+					</div>
+					<div class="col type_shotgun">
+						<p class="shopName">Shotgun</p>
+						<div class="shotgun weaponList"></div>
+					</div>
+					<div class="col type_sniper mb-5">
+						<p class="shopName">Sniper</p>
+						<div class="sniper weaponList"></div>
+					</div>
+				</div>
+			</div>
+			<div class="Status" style="pointer-events: none; width: 11vw;">
+				<div class="progress md-progress mb-1 status_damage_block" style="height: 20px">
+					<div class="progress-bar text-white bg-danger status_damage" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Damage</div>
+				</div>
+				<div class="progress md-progress mb-1 status_firerate_block" style="height: 20px">
+					<div class="progress-bar text-white bg-success status_firerate" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Fire Rate</div>
+				</div>
+				<div class="progress md-progress mb-1 status_accuracy_block" style="height: 20px">
+					<div class="progress-bar text-white bg-primaly status_accuracy" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Accuracy</div>
+				</div>
+				<div class="progress md-progress mb-1 status_range_block" style="height: 20px">
+					<div class="progress-bar text-white bg-warning status_range" role="progressbar" style="width: 25%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Range</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="quickslot" style="display:none;">
+		<div class="container">
+			<div class=" fixed-bottom d-flex justify-content-center mb-1 ml-5">
+				<div class="row ml-5">
+					<div class="col">
+						<div class="quickslot-item quickslot1_block">
+							<div style="text-align: right">
+								<img class="ammoIcon quickslot-ammoIcon1" src="nui://weaponselecter/html/img/bullet.png">
+								<span class="quickslot-label text-right quickslot1-ammo mr-2">0</span>
+							</div>
+							<center><img class="img-quickslot quickslot1" src="nui://weaponselecter/html/img/items/weapon_advancedrifle.png"></center>
+							<span class="quickslotnext-ammo quickslotnext1-ammo">0</span>
+							<img class="img-quickslotnext quickslotnext1" src="nui://weaponselecter/html/img/items/weapon_advancedrifle.png">
+
+							<div class="quickslot-label text-success ml-2">1</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="quickslot-item quickslot2_block">
+							<div style="text-align: right">
+								<img class="ammoIcon quickslot-ammoIcon2" src="nui://weaponselecter/html/img/bullet.png">
+								<span class="quickslot-label text-right quickslot2-ammo mr-2">0</span>
+							</div>
+							<center><img class="img-quickslot quickslot2" src="nui://weaponselecter/html/img/items/weapon_pistol50.png"></center>
+							<span class="quickslotnext-ammo quickslotnext2-ammo">0</span>
+							<img class="img-quickslotnext quickslotnext2" src="nui://weaponselecter/html/img/items/weapon_pistol50.png">
+							<div class="quickslot-label text-success ml-2">2</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="quickslot-item quickslot3_block">
+							<div style="text-align: right">
+								<span class="quickslot-label text-right quickslot3-ammo mr-2">⠀</span>
+							</div>
+							<center><img class="img-quickslot quickslot3" src="nui://weaponselecter/html/img/items/weapon_knife.png"></center>
+							<img class="img-quickslotnext quickslotnext3" src="nui://weaponselecter/html/img/items/weapon_knife.png">
+							<div class="quickslot-label text-success ml-2">3</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="quickslot-item quickslot4_block">
+							<div style="text-align: right">
+								<img class="ammoIcon quickslot-ammoIcon4" src="nui://weaponselecter/html/img/bullet.png">
+								<span class="quickslot-label text-right quickslot4-ammo mr-2">0</span>
+							</div>
+							<center><img class="img-quickslot quickslot4" src="nui://weaponselecter/html/img/items/weapon_smokegrenade.png"></center>
+							<span class="quickslotnext-ammo quickslotnext4-ammo">0</span>
+							<img class="img-quickslotnext quickslotnext4" src="nui://weaponselecter/html/img/items/weapon_smokegrenade.png">
+							<div class="quickslot-label text-success ml-2">4</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="quickslot" style="display:none;">
-			<div class="container">
-				<div class=" fixed-bottom d-flex justify-content-center mb-1 ml-5">
-					<div class="row ml-5">
-						<div class="col">
-							<div class="quickslot-item quickslot1_block">
-								<div style="text-align: right">
-									<img class="ammoIcon quickslot-ammoIcon1" src="nui://weaponselecter/html/img/bullet.png">
-									<span class="quickslot-label text-right quickslot1-ammo mr-2">0</span>
-								</div>
-								<center><img class="img-quickslot quickslot1" src="nui://weaponselecter/html/img/items/weapon_advancedrifle.png"></center>
-								<span class="quickslotnext-ammo quickslotnext1-ammo">0</span>
-								<img class="img-quickslotnext quickslotnext1" src="nui://weaponselecter/html/img/items/weapon_advancedrifle.png">
-								
-								<div class="quickslot-label text-success ml-2">1</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="quickslot-item quickslot2_block">
-								<div style="text-align: right">
-									<img class="ammoIcon quickslot-ammoIcon2" src="nui://weaponselecter/html/img/bullet.png">
-									<span class="quickslot-label text-right quickslot2-ammo mr-2">0</span>
-								</div>
-								<center><img class="img-quickslot quickslot2" src="nui://weaponselecter/html/img/items/weapon_pistol50.png"></center>
-								<span class="quickslotnext-ammo quickslotnext2-ammo">0</span>
-								<img class="img-quickslotnext quickslotnext2" src="nui://weaponselecter/html/img/items/weapon_pistol50.png">
-								<div class="quickslot-label text-success ml-2">2</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="quickslot-item quickslot3_block">
-								<div style="text-align: right">
-									<span class="quickslot-label text-right quickslot3-ammo mr-2">⠀</span>
-								</div>
-								<center><img class="img-quickslot quickslot3" src="nui://weaponselecter/html/img/items/weapon_knife.png"></center>
-								<img class="img-quickslotnext quickslotnext3" src="nui://weaponselecter/html/img/items/weapon_knife.png">
-								<div class="quickslot-label text-success ml-2">3</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="quickslot-item quickslot4_block">
-								<div style="text-align: right">
-									<img class="ammoIcon quickslot-ammoIcon4" src="nui://weaponselecter/html/img/bullet.png">
-									<span class="quickslot-label text-right quickslot4-ammo mr-2">0</span>
-								</div>
-								<center><img class="img-quickslot quickslot4" src="nui://weaponselecter/html/img/items/weapon_smokegrenade.png"></center>
-								<span class="quickslotnext-ammo quickslotnext4-ammo">0</span>
-								<img class="img-quickslotnext quickslotnext4" src="nui://weaponselecter/html/img/items/weapon_smokegrenade.png">
-								<div class="quickslot-label text-success ml-2">4</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/js/mdb.min.js"></script>
-	</body>
+	</div>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/js/mdb.min.js"></script>
+</body>
+
 </html>

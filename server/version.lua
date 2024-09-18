@@ -1,6 +1,7 @@
 ---Version checker
 Citizen.CreateThread(function()
-	-- Citizen.Wait(2000)
+	Citizen.Wait(2000)
+	
 	local resourceName = GetCurrentResourceName()
 	local currentVersion = GetResourceMetadata(resourceName, "version", 0)
 	PerformHttpRequest("https://api.github.com/repos/chaixshot/weaponselecter/releases/latest", function (errorCode, resultData, resultHeaders)

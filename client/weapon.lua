@@ -2,11 +2,14 @@ RegisterNUICallback('buyItem', function(data, cb)
 	local playerPed = PlayerPedId()
 	local weaponHash = GetHashKey(data.name)
 	local ammoType = GetPedAmmoTypeFromWeapon_2(playerPed, weaponHash)
+
 	SendNUIMessage({
 		type = "playSound",
 		name = "ammopickup1",
 	})
+
 	TriggerEvent("weaponselecter:OnBuy", data)
+
 	if data.name == "armor" then
 		SetPedArmour(PlayerPedId(), 100)
 	elseif data.name == "defusekit" then
@@ -30,9 +33,11 @@ RegisterNUICallback('buyItem', function(data, cb)
 			end
 			SetPedWeaponTintIndex(playerPed, weaponHash, tonumber(data.skin))
 		end
+
 		if Config.infinite then
 			SetPedInfiniteAmmo(playerPed, true, weaponHash)
 		end
+
 		for k, v in pairs(Config.AllComponent) do
 			if not Config.clip and string.find(v[1], "clip_") then
 
@@ -44,6 +49,7 @@ RegisterNUICallback('buyItem', function(data, cb)
 			end
 		end
 	end
+
 	if data.name ~= "weapon_smokegrenade" and data.name ~= "weapon_flashbang" then
 		SendNUIMessage({
 			type = "removeweapon",
@@ -54,6 +60,7 @@ end)
 
 RegisterNUICallback('getweaponstatus', function(data, cb)
 	local retval, hudDamage, hudSpeed, hudCapacity, hudAccuracy, hudRange = GetWeaponHudStats(GetHashKey(data.weaponname))
+
 	SendNUIMessage({
 		type = "setStatusHUD",
 		retval = retval,
@@ -180,9 +187,10 @@ AddEventHandler('weaponselecter:removemoney', function(money)
 	})
 end)
 
+--** Tester
 -- Citizen.CreateThread(function()
--- 	Citizen.Wait(100)
--- 	TriggerEvent("weaponselecter:setmoney", 1000)
--- 	TriggerEvent("weaponselecter:open", {ammo=80, infinite=false, removeweapon={""}})
--- 	TriggerEvent("weaponselecter:open", {ammo=200, infinite=true, removetype={"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
+	-- Citizen.Wait(100)
+	-- TriggerEvent("weaponselecter:setmoney", 1000)
+	-- TriggerEvent("weaponselecter:open", {ammo=80, infinite=false, removeweapon={""}})
+	-- TriggerEvent("weaponselecter:open", {ammo=200, infinite=true, removetype={"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
 -- end)

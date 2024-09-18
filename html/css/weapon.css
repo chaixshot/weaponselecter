@@ -1,4 +1,4 @@
-body{
+body {
 	background-color: rgba(0, 0, 0, 0);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -15,8 +15,8 @@ body{
 
 .weaponshop {
 	display: none;
-	width:100%;
-	height:100%;
+	width: 100%;
+	height: 100%;
 	background: rgba(0, 0, 0, 0.5);
 }
 
@@ -30,22 +30,23 @@ body{
 }
 
 .shopName {
-	font-family: 'Orbitron', sans-serif;
+	font-family: "Orbitron", sans-serif;
 	text-align: left;
 	margin: 0;
 	font-size: 1vw;
-	font-weight:900;
-	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%); 
+	font-weight: 900;
+	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%);
 }
 
-.money, .cash {
-	font-family: 'Orbitron', sans-serif;
+.money,
+.cash {
+	font-family: "Orbitron", sans-serif;
 	text-align: left;
 	margin: 0;
 	font-size: 3vw;
 	font-weight: 900;
 	color: limegreen;
-	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%); 
+	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%);
 }
 
 .shop {
@@ -61,33 +62,22 @@ body{
 	transform: translateX(-3.125vw);
 }
 
-.shop::-webkit-scrollbar {
-  width: 0vw;
-}
-
-.shop::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.shop::-webkit-scrollbar-thumb {
-  background: transparent;
-}
-
 .item {
 	color: Orange;
 	font-size: 0.6vw;
 	display: flex;
 	width: 11vw;
-	margin-left:5%;
+	margin-left: 5%;
 	margin-top: 0.5vh;
 	transition-duration: 0.3s;
 	border-radius: 5px;
-	background: linear-gradient(
-	90deg,
-	rgba(0, 0, 0, 0.5) 0%,
-	rgba(0, 0, 0, 0.3) 100%
-	);
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.3) 100%);
 	position: relative;
+}
+
+.weaponList {
+	overflow-y: auto;
+	max-height: 85vh;
 }
 
 .quickslot-item {
@@ -99,7 +89,7 @@ body{
 }
 
 .quickslot-label {
-	font-family: 'Orbitron', sans-serif;
+	font-family: "Orbitron", sans-serif;
 	font-weight: 900;
 }
 
@@ -111,8 +101,8 @@ body{
 }
 
 .img-quickslotnext {
-	bottom:5%;
-	right:20%;
+	bottom: 5%;
+	right: 20%;
 	position: absolute;
 	width: 1.7vw;
 	height: 1.7vw;
@@ -121,10 +111,10 @@ body{
 }
 
 .quickslotnext-ammo {
-	font-family: 'Orbitron', sans-serif;
+	font-family: "Orbitron", sans-serif;
 	font-size: 0.4vw;
-	bottom:20%;
-	right:0%;
+	bottom: 20%;
+	right: 0%;
 	position: absolute;
 	width: 1.7vw;
 	height: 1.7vw;
@@ -133,25 +123,20 @@ body{
 }
 
 .item:hover::after {
-  opacity: 1;
-  transition: all 0.3s;
+	opacity: 1;
+	transition: all 0.3s;
 }
 
 .item:hover {
-  background: rgba(0, 0, 0, 0.2);
-  background: linear-gradient(
-    90deg,
-    rgba(100, 100, 100, 0.5) 0%,
-    rgba(100, 100, 100, 0.3) 100%
-  );
-  transition: all 0.4s;
-  transform: scale(1.05);
-  box-shadow: rgba(156, 156, 156, 0.25) 0vw 30vw 60vw -0.469vw inset,
-    rgba(133, 133, 133, 0.3) 0vw 0.703vw 1.406vw -0.703vw inset;
+	background: rgba(0, 0, 0, 0.2);
+	background: linear-gradient(90deg, rgba(100, 100, 100, 0.5) 0%, rgba(100, 100, 100, 0.3) 100%);
+	transition: all 0.4s;
+	transform: scale(1.05);
+	box-shadow: rgba(156, 156, 156, 0.25) 0vw 30vw 60vw -0.469vw inset, rgba(133, 133, 133, 0.3) 0vw 0.703vw 1.406vw -0.703vw inset;
 }
 
 .disable {
-	background: rgba(255, 255, 255, 0.4)
+	background: rgba(255, 255, 255, 0.4);
 }
 
 .img-item {
@@ -162,7 +147,7 @@ body{
 }
 
 .price {
-	font-family: 'Orbitron', sans-serif;
+	font-family: "Orbitron", sans-serif;
 	color: limegreen;
 	text-align: left;
 }
@@ -172,31 +157,37 @@ body{
 	justify-content: space-evenly;
 	align-items: left;
 	font-weight: 900;
-	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%); 
+	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%);
 }
 
 .ammoIcon {
-    width: 0.5vw;
-    height: 0.5vw;
+	width: 0.5vw;
+	height: 0.5vw;
 	filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 60%));
 }
 
+.Status {
+	text-shadow: 1px 2px 4px rgb(0 0 0 / 60%);
+	position:absolute;
+	display:inline-block;
+}
+
 @keyframes slide-modal {
-  from {
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+	from {
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 
 @keyframes slide-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+	from {
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
 }

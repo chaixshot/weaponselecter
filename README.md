@@ -8,7 +8,10 @@ TriggerEvent("weaponselecter:open", { -- Open weapon selector
   infinite = true, -- Weapon should infinite ammo?
   clip = true, -- Give weapon with Config.AllComponent
   disablecontrol = true, -- Disable player control while weapon selector open
-  removetype = { -- Remove weapon category list
+  removeweapon = { -- Remove weapon from list
+    "weapon_grenade"
+  },
+  removeType = { -- Remove weapon category list
     "submachine",
     "assault",
     "shotgun",

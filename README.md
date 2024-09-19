@@ -6,6 +6,7 @@ TriggerEvent("weaponselecter:removemoney", 100) -- Remove money from weapon sele
 TriggerEvent("weaponselecter:open", { -- Open weapon selector
   ammo = 200, -- How many ammo can get form give weapon
   infinite = true, -- Weapon should infinite ammo?
+  clip = true, -- Give weapon with Config.AllComponent
   removetype = { -- Remove weapon category list
     "submachine",
     "assault",

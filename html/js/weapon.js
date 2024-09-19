@@ -49,7 +49,7 @@ var lastWeaponName = ""
 window.addEventListener('message', function (event) {
 	var data = event.data;
 
-	if (data.type == "clearmenu") {
+	if (data.type == "clearMenu") {
 		allWeapon = {};
 		$('.tool').empty();
 		$('.grenade').empty();
@@ -76,12 +76,12 @@ window.addEventListener('message', function (event) {
 		}
 	}
 
-	if (data.type == "setcurrentmoney") {
+	if (data.type == "setMoney") {
 		currentMoney = data.money
 		$(".cash").html(formatMoney(currentMoney));
 	}
 
-	if (data.type == "addcurrentmoney") {
+	if (data.type == "addMoney") {
 		currentMoney = currentMoney + data.money
 		if (currentMoney > 25000) {
 			currentMoney = 25000
@@ -89,12 +89,12 @@ window.addEventListener('message', function (event) {
 		$(".cash").html(formatMoney(currentMoney));
 	}
 
-	if (data.type == "removecurrentmoney") {
+	if (data.type == "removeMoney") {
 		currentMoney = currentMoney - data.money
 		$(".cash").html(formatMoney(currentMoney));
 	}
 
-	if (data.type == "createweaponmenu") {
+	if (data.type == "createWeaponList") {
 		let disable = ""
 		if (currentMoney < data.price) {
 			disable = "disable"
@@ -112,11 +112,11 @@ window.addEventListener('message', function (event) {
 		audioPlayer.play();
 	}
 
-	if (data.type == "removeweapon") {
+	if (data.type == "removeWeapon") {
 		$('.' + data.weapon).empty();
 	}
 
-	if (data.type == "removetype") {
+	if (data.type == "removeType") {
 		$('.type_' + data.weapontype).hide();
 	}
 
@@ -161,7 +161,7 @@ window.addEventListener('message', function (event) {
 			$(".Status").css("left", e.pageX + 10);
 			$(".Status").css("top", e.pageY - 50);
 			$(".Status").show();
-			$.post(`https://${GetParentResourceName()}/getweaponstatus`, JSON.stringify({
+			$.post(`https://${GetParentResourceName()}/getWeaponStat`, JSON.stringify({
 				weaponname: weaponName,
 			}));
 		}

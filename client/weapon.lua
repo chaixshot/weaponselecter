@@ -1,30 +1,37 @@
+local WPM = {
+	Ammo = 0,
+	Clip = false,
+	money = 0,
+}
+
 RegisterNUICallback('buyItem', function(data, cb)
+	TriggerEvent("weaponselecter:OnBuy", data)
+
 	local playerPed = PlayerPedId()
 	local weaponHash = GetHashKey(data.name)
 	local ammoType = GetPedAmmoTypeFromWeapon_2(playerPed, weaponHash)
+	local ammo = WPM.Ammo
 
 	SendNUIMessage({
 		type = "playSound",
 		name = "ammopickup1",
 	})
 
-	TriggerEvent("weaponselecter:OnBuy", data)
-
 	if data.name == "armor" then
 		SetPedArmour(PlayerPedId(), 100)
 	elseif data.name == "defusekit" then
 		TriggerEvent("weaponselecter:OnPlayerSelectDefusekit")
 	else
-		local Ammo = Config.ammo
 		if data.name == "weapon_smokegrenade" or data.name == "weapon_flashbang" or data.type == "melee" then
-			Ammo = 1
+			ammo = 1
 		end
 
 		if data.type == "pistol" then
-			Ammo = math.floor(Ammo / 2)
+			ammo = math.floor(ammo / 2)
 		end
 
-		GiveWeaponToPed(playerPed, weaponHash, Ammo, false, true)
+		GiveWeaponToPed(playerPed, weaponHash, ammo, false, true)
+
 		if string.find(data.name, "mk2") then
 			SetPedWeaponTintIndex(playerPed, weaponHash, tonumber(data.skin))
 		else
@@ -39,7 +46,7 @@ RegisterNUICallback('buyItem', function(data, cb)
 		end
 
 		for k, v in pairs(Config.AllComponent) do
-			if not Config.clip and string.find(v[1], "clip_") then
+			if not WPM.Clip and string.find(v[1], "clip_") then
 
 			else
 				local component = GetWeaponComponent(data.name, v[1])
@@ -52,13 +59,13 @@ RegisterNUICallback('buyItem', function(data, cb)
 
 	if data.name ~= "weapon_smokegrenade" and data.name ~= "weapon_flashbang" then
 		SendNUIMessage({
-			type = "removeweapon",
+			type = "removeWeapon",
 			weapon = data.name,
 		})
 	end
 end)
 
-RegisterNUICallback('getweaponstatus', function(data, cb)
+RegisterNUICallback('getWeaponStat', function(data, cb)
 	local retval, hudDamage, hudSpeed, hudCapacity, hudAccuracy, hudRange = GetWeaponHudStats(GetHashKey(data.weaponname))
 
 	SendNUIMessage({
@@ -82,46 +89,56 @@ RegisterNUICallback('nomoney', function(data, cb)
 	})
 end)
 
-function OpenWeaponMenu(data)
-	local _WeaponList = {}
+function WPM:Visible(_visible)
+	if _visible then
+		self.visible = _visible
+	else
+		return self.visible
+	end
+end
 
-	MenuOpen = true
-
-	Config.infinite = data.infinite
-	Config.ammo = data.ammo
-	Config.clip = (data.clip == nil and false or data.clip)
-	Config.disablecontrol = (data.disablecontrol == nil and true or data.disablecontrol)
-	Config.removeweapon = {}
+function WPM:Open(data)
+	self:Visible(true)
+	self.Infinite = data.infinite
+	self.Ammo = data.ammo
+	self.Clip = (data.clip == nil and false or data.clip)
 
 	SetNuiFocus(true, true)
+
 	SendNUIMessage({
-		type = "clearmenu",
+		type = "clearMenu",
 		display = true,
 	})
+
 	SendNUIMessage({
 		type = "playSound",
 		name = "ammopickup2",
 	})
 
+	local weaponList = {}
+	local removeList = {}
+
 	if data.removeweapon then
-		for k, v in pairs(data.removeweapon) do
-			Config.removeweapon[v] = true
+		for _, name in pairs(data.removeweapon) do
+			removeList[name] = true
 		end
 	end
 
-	for k, v in pairs(Config.WeaponList) do
-		if not Config.removeweapon[k] then
-			table.insert(_WeaponList, v)
+	for name, data in pairs(Config.WeaponList) do
+		if not removeList[name] then
+			table.insert(weaponList, data)
 		end
 	end
 
-	table.sort(_WeaponList, function(a, b)
+	-- Sort weaon list by name
+	table.sort(weaponList, function(a, b)
 		return a["itemLabel"] < b["itemLabel"]
 	end)
 
-	for k, v in pairs(_WeaponList) do
+	-- Insert weapon list to menu
+	for k, v in pairs(weaponList) do
 		SendNUIMessage({
-			type = "createweaponmenu",
+			type = "createWeaponList",
 			weapontype = v.type,
 			item = v.item,
 			itemLabel = v.itemLabel,
@@ -129,68 +146,107 @@ function OpenWeaponMenu(data)
 		})
 	end
 
+	-- Remove weapon category
 	if data.removetype then
 		for k, v in pairs(data.removetype) do
 			SendNUIMessage({
-				type = "removetype",
+				type = "removeType",
 				weapontype = v,
 			})
 		end
 	end
 
-	if Config.disablecontrol then
-		while MenuOpen do
-			SetPlayerControl(PlayerId(), false, 256)
-			Citizen.Wait(0)
-		end
+	-- Disable player control
+	while self:Visible() and data.disablecontrol do
+		SetPlayerControl(PlayerId(), false, 256)
+
+		Citizen.Wait(0)
 	end
 end
 
-AddEventHandler('weaponselecter:open', function(data)
-	OpenWeaponMenu(data)
-end)
+function WPM:Close()
+	if WPM:Visible() then
+		WPM:Visible(false)
 
-AddEventHandler('weaponselecter:close', function()
-	if MenuOpen then
 		SendNUIMessage({
-			type = "clearmenu",
+			type = "clearMenu",
 			display = false,
 		})
+
 		SendNUIMessage({
 			type = "playSound",
 			name = "ammopickup2",
 		})
-		MenuOpen = false
+
 		SetNuiFocus(false, false)
 		SetPlayerControl(PlayerId(), true, 0)
 	end
+end
+
+function WPM:SetMoney(money)
+	self.money = money
+	SendNUIMessage({
+		type = "setMoney",
+		money = money,
+	})
+end
+
+function WPM:AddMoney(money)
+	self.money += money
+	SendNUIMessage({
+		type = "addMoney",
+		money = money,
+	})
+end
+
+function WPM:RemovMoney(money)
+	self.money -= money
+	SendNUIMessage({
+		type = "removeMoney",
+		money = money,
+	})
+end
+
+AddEventHandler('weaponselecter:open', function(data)
+	WPM:Open(data)
+end)
+
+AddEventHandler('weaponselecter:close', function()
+	WPM:Close()
 end)
 
 AddEventHandler('weaponselecter:setmoney', function(money)
-	SendNUIMessage({
-		type = "setcurrentmoney",
-		money = money,
-	})
+	WPM:SetMoney(money)
 end)
 
 AddEventHandler('weaponselecter:addmoney', function(money)
-	SendNUIMessage({
-		type = "addcurrentmoney",
-		money = money,
-	})
+	WPM:AddMoney(money)
 end)
 
 AddEventHandler('weaponselecter:removemoney', function(money)
-	SendNUIMessage({
-		type = "addcurrentmoney",
-		money = money,
-	})
+	WPM:RemovMoney(money)
 end)
 
 --** Tester
 -- Citizen.CreateThread(function()
-	-- Citizen.Wait(100)
-	-- TriggerEvent("weaponselecter:setmoney", 1000)
-	-- TriggerEvent("weaponselecter:open", {ammo=80, infinite=false, removeweapon={""}})
-	-- TriggerEvent("weaponselecter:open", {ammo=200, infinite=true, removetype={"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
+-- 	Citizen.Wait(100)
+-- 	TriggerEvent("weaponselecter:setmoney", 100000)
+-- 	TriggerEvent("weaponselecter:open", {ammo = 80, infinite = false, removeweapon = {""}})
+-- 	TriggerEvent("weaponselecter:open", {ammo = 200, infinite = true, removetype = {"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"}})
 -- end)
+
+--[[
+RegisterCommand('wpm', function(source, args)
+	WPM:SetMoney(100000)
+	WPM:Open({
+		ammo = 200,
+		infinite = true,
+		removeweapon = {
+			"weapon_grenade"
+		},
+		removetype = {
+			"submachine", "assault", "shotgun", "sniper", "melee", "tool", "grenade"
+		}
+	})
+end, false)
+]]

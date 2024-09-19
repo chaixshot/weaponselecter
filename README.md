@@ -47,3 +47,13 @@ QS:Visible(false) -- Set quick slot hide
 QS:Visible(true) -- Set quick slot show
 ```
 ![image](https://github.com/user-attachments/assets/92976132-450a-4b7b-a4ff-0b638428cf7e)
+
+# Event Handler
+```lua
+AddEventHandler("weaponselecter:OnBuy", function(data)
+	data.name -- string weapon_bzgas, weapon_bat
+	data.type -- string grenade, melee, pistol
+	data.price -- integer
+	data.skin -- integer
+end)
+```
